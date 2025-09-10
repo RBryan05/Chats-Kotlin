@@ -1,5 +1,6 @@
 package com.example.chats_kotlin
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -9,15 +10,22 @@ import com.example.chats_kotlin.Fragmentos.FragmentChats
 import com.example.chats_kotlin.Fragmentos.FragmentPerfil
 import com.example.chats_kotlin.Fragmentos.FragmentUsuarios
 import com.example.chats_kotlin.databinding.ActivityMainBinding
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityMainBinding
+    private lateinit var firebaseAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
+
+        firebaseAuth = FirebaseAuth.getInstance()
+        if (firebaseAuth.currentUser == null){
+            irOpcionesLogin()
+        }
 
         enableEdgeToEdge()
         setContentView(binding.root)
@@ -53,6 +61,10 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun irOpcionesLogin() {
+        startActivity(Intent(applicationContext, OpcionesLoginActivity::class.java))
     }
 
     private fun verFragmentPerfil(){
